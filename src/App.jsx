@@ -43,7 +43,7 @@ export default function App() {
       camera={{ position: [0, -11.5, 15], fov: 35 }}
     >
       <ambientLight intensity={2.5} />
-      <Clouds />
+
       <spotLight
         position={[-20, 0, 10]}
         color="red"
@@ -68,7 +68,14 @@ export default function App() {
         turbidity={0.5} // Turbidity of the atmosphere
         rayleigh={0.5} // Rayleigh scattering
       />
+
       <Suspense fallback={<Loader3 />}>
+        <Clouds />
+        <Environment
+          preset="forest" // Predefined environment map
+          background // Sets the environment as the scene background
+          backgroundBlurriness={0.5} // Optional blur effect (Three.js r146+)
+        />
         <OrbitControls
           autoRotate={false}
           autoRotateSpeed={0.9}
@@ -78,7 +85,7 @@ export default function App() {
           minAzimuthAngle={-Math.PI}
           maxAzimuthAngle={Math.PI}
         />
-        <Environment preset="city" />
+        {/* <Environment preset="city" /> */}
 
         {/* <directionalLight position={[0, 3, 5]} color="white" /> */}
         <Model />
@@ -167,7 +174,7 @@ export default function App() {
           url={fishModel}
           radius={0.4}
           period={22}
-          color="#ff0000" // Red color
+          color="#ff0000"
           center={{ x: -6.6, y: 0.17, z: 0 }}
           //scale={{ x: 0.5, y: 1, z: 0.5 }} // Non-uniform scaling
           scale={0.085}
