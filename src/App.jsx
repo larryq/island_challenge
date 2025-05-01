@@ -80,7 +80,7 @@ export default function App() {
         />
 
         <Model />
-        <axesHelper args={[15]} />
+
         <Image
           url="/treasure_chest02.jpeg"
           position={[3.36, 0.117, -6.7]}
