@@ -3,13 +3,8 @@ import * as THREE from "three";
 import { AxesHelper } from "three";
 import { Canvas } from "@react-three/fiber";
 import {
-  AccumulativeShadows,
-  RandomizedLight,
   OrbitControls,
   Environment,
-  useGLTF,
-  useVideoTexture,
-  useAnimations,
   Sparkles,
   Html,
   Billboard,
@@ -21,8 +16,9 @@ import {
 
 import Model from "./Island.jsx";
 import SmokeScreen from "./SmokeScreen.jsx";
-import OrbitingModel from "./SwimmingFish.jsx";
+import OrbitingModel from "./OrbitingModel.jsx";
 import Clouds from "./Clouds.jsx";
+import Seabed from "./Seabed.jsx";
 
 function Loader3() {
   return (
@@ -36,21 +32,29 @@ function Loader3() {
 
 export default function App() {
   let fishModel = "./fish.glb";
+  let blimpModel = "./blimp2.glb";
   return (
     <Canvas
       gl={{ antialias: true }}
       shadows
-      camera={{ position: [0, -11.5, 15], fov: 35 }}
+      camera={{ position: [0, -10.5, 14], fov: 35 }}
     >
-      <ambientLight intensity={2.5} />
+      <Environment
+        preset="dawn"
+        background
+        backgroundBlurriness={0.9}
+        backgroundIntensity={0.002}
+      />
+      <ambientLight intensity={2.0} />
+      <directionalLight position={[0, 40, 40]} intensity={2} color="white" />
 
       <spotLight
         position={[-20, 0, 10]}
-        color="red"
+        color="white"
         angle={0.15}
         decay={0}
         penumbra={-1}
-        intensity={30}
+        intensity={15}
       />
       <spotLight
         position={[20, 10, 10]}
@@ -58,24 +62,13 @@ export default function App() {
         angle={0.2}
         decay={0}
         penumbra={-1}
-        intensity={20}
-      />
-      <SkyImpl
-        distance={450000} // Camera distance
-        sunPosition={[0, 1, 0]} // Sun position in the sky
-        inclination={0} // Sun inclination
-        azimuth={0.25} // Sun azimuth
-        turbidity={0.5} // Turbidity of the atmosphere
-        rayleigh={0.5} // Rayleigh scattering
+        intensity={15}
       />
 
       <Suspense fallback={<Loader3 />}>
         <Clouds />
-        <Environment
-          preset="forest" // Predefined environment map
-          background // Sets the environment as the scene background
-          backgroundBlurriness={0.5} // Optional blur effect (Three.js r146+)
-        />
+
+        <Seabed />
         <OrbitControls
           autoRotate={false}
           autoRotateSpeed={0.9}
@@ -85,13 +78,11 @@ export default function App() {
           minAzimuthAngle={-Math.PI}
           maxAzimuthAngle={Math.PI}
         />
-        {/* <Environment preset="city" /> */}
 
-        {/* <directionalLight position={[0, 3, 5]} color="white" /> */}
         <Model />
         <axesHelper args={[15]} />
         <Image
-          url="/schooner01.png"
+          url="/treasure_chest02.jpeg"
           position={[3.36, 0.117, -6.7]}
           rotation={[Math.PI / 2, 0, 0]}
           scale={[0.75, 0.75, 1]}
@@ -169,16 +160,48 @@ export default function App() {
           bobDistance={0.1} // Bobbing distance
           bobPeriod={5}
         />
-        {/* Smaller instance with non-uniform scaling */}
+
         <OrbitingModel
           url={fishModel}
           radius={0.4}
           period={22}
           color="#ff0000"
           center={{ x: -6.6, y: 0.17, z: 0 }}
-          //scale={{ x: 0.5, y: 1, z: 0.5 }} // Non-uniform scaling
           scale={0.085}
           bobDistance={0.1} // Bobbing distance
+          bobPeriod={5}
+          rotationDirection={-1}
+        />
+        <OrbitingModel
+          url={fishModel}
+          radius={0.4}
+          period={8}
+          color="#ff7e33"
+          center={{ x: 0, y: 0.17, z: -7.0 }}
+          scale={0.085}
+          bobDistance={0.1} // Bobbing distance
+          bobPeriod={5}
+          rotationDirection={-1}
+        />
+        <OrbitingModel
+          url={fishModel}
+          radius={0.8}
+          period={18}
+          color="#3437eb"
+          center={{ x: -5, y: 0.17, z: 4.0 }}
+          scale={0.065}
+          bobDistance={0.1} // Bobbing distance
+          bobPeriod={5}
+          rotationDirection={-1}
+        />
+        <OrbitingModel
+          url={blimpModel}
+          radius={5.8}
+          period={70.8}
+          color="#3437eb"
+          center={{ x: 0, y: 3.17, z: 0.0 }}
+          scale={1.05}
+          bobDistance={0.0} // Bobbing distance
           bobPeriod={5}
           rotationDirection={-1}
         />

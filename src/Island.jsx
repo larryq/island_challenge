@@ -45,7 +45,7 @@ function VolcanoSetup() {
     {
       uTime: 0,
       //uSurfaceColor: new THREE.Color("#FFFFFF"),
-      uSurfaceColor: new THREE.Color("#151c37"),
+      uSurfaceColor: new THREE.Color("#c9182d"),
       //uDepthColor: new THREE.Color("#FFFFFF"),
       uDepthColor: new THREE.Color("#ff4000"),
       uBigWavesElevation: 0.12,
@@ -127,11 +127,11 @@ function BoilingWaterSetup() {
       uTime: 0,
       uSurfaceColor: new THREE.Color("#F93827"),
       uDepthColor: new THREE.Color("#2030AD"),
-      uBigWavesElevation: 0.12,
+      uBigWavesElevation: 0.22,
       uBigWavesFrequency: new THREE.Vector2(4, 4),
       uBigWavesSpeed: 0.15,
 
-      uSmallWavesElevation: 0.25,
+      uSmallWavesElevation: 0.35,
       uSmallWavesFrequency: 3.0,
       uSmallWavesSpeed: 0.15,
       uSmallIterations: 4.0,
@@ -150,10 +150,9 @@ export default function Model(props) {
   const { nodes, materials } = useGLTF("/island2.glb");
   const surfaceMaterial = useRef();
   const waveMaterial = useRef();
-  const smokeMaterial = useRef();
-  const smokeMaterial2 = useRef();
+
   const waterCircleMaterial = useRef();
-  const lavaPlaneMaterial = useRef();
+
   const boilingWaterMaterial = useRef();
 
   const smokeTexture = useLoader(TextureLoader, "./perlin.png");
@@ -241,7 +240,7 @@ export default function Model(props) {
           receiveShadow
           geometry={nodes.Boiling_Water.geometry}
           material={materials.grass}
-          position={[0.116, 1.083, 0.559]}
+          position={[0.116, 1.243, 0.559]}
           scale={[0.022, 0.221, 0.022]}
         >
           <boilingWaterMaterial ref={boilingWaterMaterial} />
