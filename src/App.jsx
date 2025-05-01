@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState, Suspense } from "react";
 import * as THREE from "three";
+import { AxesHelper } from "three";
 import { Canvas } from "@react-three/fiber";
 import {
   AccumulativeShadows,
@@ -15,6 +16,7 @@ import {
   Text,
   useEnvironment,
   Sky as SkyImpl,
+  Image,
 } from "@react-three/drei";
 
 import Model from "./Island.jsx";
@@ -26,7 +28,7 @@ function Loader3() {
   return (
     <Html>
       <div id="loading-dialog" class="hidden">
-        <img src="tamagotchi1.jpeg" alt="Loading..." id="loading-image" />
+        <img src="volcano4.jpeg" alt="Loading..." id="loading-image" />
       </div>
     </Html>
   );
@@ -51,7 +53,7 @@ export default function App() {
         intensity={30}
       />
       <spotLight
-        position={[20, -10, 10]}
+        position={[20, 10, 10]}
         color="red"
         angle={0.2}
         decay={0}
@@ -73,13 +75,21 @@ export default function App() {
           enableZoom={true}
           minPolarAngle={0}
           maxPolarAngle={Math.PI / 2.5}
-          minAzimuthAngle={-Math.PI / 2}
-          maxAzimuthAngle={Math.PI / 2}
+          minAzimuthAngle={-Math.PI}
+          maxAzimuthAngle={Math.PI}
         />
         <Environment preset="city" />
 
         {/* <directionalLight position={[0, 3, 5]} color="white" /> */}
         <Model />
+        <axesHelper args={[15]} />
+        <Image
+          url="/schooner01.png"
+          position={[3.36, 0.117, -6.7]}
+          rotation={[Math.PI / 2, 0, 0]}
+          scale={[0.75, 0.75, 1]}
+          side={THREE.DoubleSide}
+        />
         <SmokeScreen
           texturePath="./perlin.png"
           width={3}
@@ -103,10 +113,52 @@ export default function App() {
         <OrbitingModel
           url={fishModel}
           radius={0.5}
-          period={12}
+          period={9}
+          color="#ffffff" // Green color
+          center={{ x: 6.0, y: 0.24, z: -2.96 }}
+          scale={0.085}
+          bobDistance={0.1} // Bobbing distance
+          bobPeriod={8}
+          rotationDirection={-1}
+        />
+        <OrbitingModel
+          url={fishModel}
+          radius={0.5}
+          period={9}
+          color="#fff000"
+          center={{ x: 7.0, y: 0.24, z: 2.0 }}
+          scale={0.085}
+          bobDistance={0.1} // Bobbing distance
+          bobPeriod={8}
+          rotationDirection={-1}
+        />
+        <OrbitingModel
+          url={fishModel}
+          radius={0.5}
+          period={9}
+          color="#bb33ff"
+          center={{ x: 4.3, y: 0.18, z: 5.0 }}
+          scale={0.045}
+          bobDistance={0.1} // Bobbing distance
+          bobPeriod={8}
+        />
+        <OrbitingModel
+          url={fishModel}
+          radius={1.0}
+          period={10}
+          color="#000000"
+          center={{ x: 6.0, y: 0.24, z: -1.96 }}
+          scale={0.085}
+          bobDistance={0.1} // Bobbing distance
+          bobPeriod={5}
+        />
+        <OrbitingModel
+          url={fishModel}
+          radius={0.5}
+          period={19}
           color="#00ff00" // Green color
-          center={{ x: 2, y: 1, z: -3 }}
-          scale={0.1}
+          center={{ x: 6.0, y: 0.26, z: -2.5 }}
+          scale={0.085}
           bobDistance={0.1} // Bobbing distance
           bobPeriod={5}
         />
@@ -118,9 +170,10 @@ export default function App() {
           color="#ff0000" // Red color
           center={{ x: -6.6, y: 0.17, z: 0 }}
           //scale={{ x: 0.5, y: 1, z: 0.5 }} // Non-uniform scaling
-          scale={0.1}
+          scale={0.085}
           bobDistance={0.1} // Bobbing distance
           bobPeriod={5}
+          rotationDirection={-1}
         />
       </Suspense>
     </Canvas>

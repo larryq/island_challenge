@@ -14,6 +14,7 @@ const OrbitingModel = ({
   forwardAxis = [-1, 0, 0], // Default: nose points along +X
   bobDistance = 1.25,
   bobPeriod = 1,
+  rotationDirection = 1,
 }) => {
   const gltf = useGLTF(url);
   const meshRef = useRef();
@@ -78,7 +79,10 @@ const OrbitingModel = ({
   useFrame((state, delta) => {
     if (meshRef.current) {
       timeRef.current += delta;
-      const angle = (timeRef.current % period) * ((2 * Math.PI) / period);
+      const angle =
+        (timeRef.current % period) *
+        ((2 * Math.PI) / period) *
+        rotationDirection;
 
       // Update position in a circular pattern
       meshRef.current.position.x = center.x + radius * Math.cos(angle);
@@ -91,9 +95,9 @@ const OrbitingModel = ({
 
       // Compute the tangent direction (velocity vector, counterclockwise)
       const tangent = new THREE.Vector3(
-        -radius * Math.sin(angle), // dx/dt
+        -radius * Math.sin(angle) * rotationDirection, // dx/dt
         0, // dy/dt (no Y motion)
-        radius * Math.cos(angle) // dz/dt
+        radius * Math.cos(angle) * rotationDirection // dz/dt
       ).normalize();
 
       const lookAtPosition = new Vector3().addVectors(

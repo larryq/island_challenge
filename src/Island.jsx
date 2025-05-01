@@ -3,6 +3,7 @@ import {
   useGLTF,
   shaderMaterial,
   Sparkles,
+  Image,
 } from "@react-three/drei";
 import { extend, useFrame, useLoader } from "@react-three/fiber";
 import * as THREE from "three";
@@ -171,16 +172,12 @@ export default function Model(props) {
 
   useFrame((state, delta) => {
     surfaceMaterial.current.uTime += delta * 2;
-    //surfaceMaterial2.current.uTime += delta * 2;
+
     waveMaterial.current.time += delta * 2;
 
-    smokeMaterial.current.uTime += delta * 2;
-    smokeMaterial2.current.uTime += delta * 2;
     boilingWaterMaterial.current.uTime += delta * 3;
-    lavaPlaneMaterial.current.uTime += delta * 3;
+
     waterCircleMaterial.current.uTime += delta * 0.8;
-    //smokeMaterial2.current.uniforms.uTime.value += delta * 2;
-    //console.log(smokeMaterial.current.uniforms.uTime.value);
   });
   return (
     <group {...props} dispose={null}>
@@ -244,31 +241,21 @@ export default function Model(props) {
           receiveShadow
           geometry={nodes.Boiling_Water.geometry}
           material={materials.grass}
-          position={[0.116, 1.183, 0.559]}
+          position={[0.116, 1.083, 0.559]}
           scale={[0.022, 0.221, 0.022]}
         >
           <boilingWaterMaterial ref={boilingWaterMaterial} />
         </mesh>
+
         <mesh
           castShadow
           receiveShadow
           geometry={nodes.Lava_Circle.geometry}
           material={materials.grass}
-          position={[-0.044, 1.789, 0.438]}
+          position={[-0.044, 1.689, 0.438]}
           scale={[0.062, 0.616, 0.062]}
         >
           <volcano1Material ref={surfaceMaterial} />
-        </mesh>
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.Lava_Plane.geometry}
-          material={nodes.Lava_Plane.material}
-          position={[0.062, 1.431, 0.528]}
-          rotation={[0.55, -0.43, -0.698]}
-          scale={[0.173, 0.165, 0.013]}
-        >
-          <lavaPlaneMaterial ref={lavaPlaneMaterial} />
         </mesh>
         <mesh
           castShadow
@@ -317,38 +304,6 @@ export default function Model(props) {
         position={[0.173, -1.092, 0.013]}
         scale={[10, 1, 10]}
       />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.SmokePlane1.geometry}
-        material={materials.ground}
-        position={[-4.352, 1.575, -1.854]}
-        rotation={[Math.PI / 2, 0, 0]}
-        scale={[0.364, 0.733, 1.309]}
-      >
-        <smokeMaterial
-          ref={smokeMaterial}
-          transparent={false}
-          depthWrite={true}
-          side={THREE.DoubleSide}
-        />
-      </mesh>
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.SmokePlane2.geometry}
-        material={materials.ground}
-        position={[-4.352, 1.575, -1.854]}
-        rotation={[Math.PI / 2, 0, -Math.PI / 2]}
-        scale={[0.364, 0.733, 1.309]}
-      >
-        <smokeMaterial
-          ref={smokeMaterial2}
-          transparent={false}
-          depthWrite={true}
-          side={THREE.DoubleSide}
-        />
-      </mesh>
     </group>
   );
 }

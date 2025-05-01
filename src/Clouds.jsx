@@ -13,41 +13,57 @@ import {
 export default function AtmosphericClouds() {
   const ref = useRef();
   const cloud0 = useRef();
-  //   const { color, x, y, z, range, ...config } = useControls({
-  //     seed: { value: 1, min: 1, max: 100, step: 1 },
-  //     segments: { value: 20, min: 1, max: 80, step: 1 },
-  //     volume: { value: 6, min: 0, max: 100, step: 0.1 },
-  //     opacity: { value: 0.8, min: 0, max: 1, step: 0.01 },
-  //     fade: { value: 10, min: 0, max: 400, step: 1 },
-  //     growth: { value: 4, min: 0, max: 20, step: 1 },
-  //     speed: { value: 0.1, min: 0, max: 1, step: 0.01 },
-  //     x: { value: 6, min: 0, max: 100, step: 1 },
-  //     y: { value: 1, min: 0, max: 100, step: 1 },
-  //     z: { value: 1, min: 0, max: 100, step: 1 },
-  //     color: "white",
-  //   });
+  const cloud1 = useRef();
+
   useFrame((state, delta) => {
-    ref.current.rotation.y = Math.cos(state.clock.elapsedTime / 2) / 2;
-    ref.current.rotation.x = Math.sin(state.clock.elapsedTime / 2) / 2;
+    // ref.current.rotation.y = Math.cos(state.clock.elapsedTime / 2) / 2;
+    // ref.current.rotation.x = Math.sin(state.clock.elapsedTime / 2) / 2;
     cloud0.current.rotation.y -= delta;
   });
   return (
     <>
       {/* <SkyImpl /> */}
       <group ref={ref}>
-        <Clouds material={THREE.MeshLambertMaterial} limit={400} range={34}>
+        <Clouds material={THREE.MeshLambertMaterial} limit={400} range={344}>
           <Cloud
             ref={cloud0}
             segments={20}
-            volume={6}
-            opacity={0.3}
+            volume={3}
+            opacity={0.23}
             fade={10}
-            growth={4}
-            speed={0.1}
-            bounds={[2, 1, 1]}
+            growth={2}
+            speed={0.7}
+            bounds={[0.3, 0.1, 0.5]}
             color="#eed0d0"
-            seed={2}
-            position={[-3.5, 0, -0.9]}
+            seed={5}
+            position={[-4.5, 2.0, -1.9]}
+          />
+          <Cloud
+            ref={cloud0}
+            segments={20}
+            volume={2.5}
+            opacity={0.1}
+            fade={10}
+            growth={2}
+            speed={0.7}
+            bounds={[0.05, 0.1, 0.05]}
+            color="#a83248"
+            seed={5}
+            position={[-4.5, 1.0, -1.9]}
+          />
+          <Cloud
+            ref={cloud1}
+            segments={20}
+            volume={0.015}
+            opacity={0.11}
+            fade={8}
+            growth={2.2}
+            speed={0.6}
+            bounds={[0.075, 0.1, 0.075]}
+            color="#ff5833"
+            seed={5}
+            //position={[0, 0, 0]}
+            position={[2.5, 1.18, 0.3]}
           />
           {/* <Cloud
             {...config}
