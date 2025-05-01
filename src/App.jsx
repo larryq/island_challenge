@@ -75,8 +75,6 @@ export default function App() {
           enableZoom={true}
           minPolarAngle={0}
           maxPolarAngle={Math.PI / 2.5}
-          minAzimuthAngle={-Math.PI}
-          maxAzimuthAngle={Math.PI}
         />
 
         <Model />
