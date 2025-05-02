@@ -193,14 +193,25 @@ export default function App() {
           rotationDirection={-1}
         />
         <OrbitingModel
+          url={fishModel}
+          radius={0.15}
+          period={9}
+          color="#c76d52"
+          center={{ x: 4.32, y: 0.735, z: -4.62 }}
+          scale={0.042}
+          bobDistance={0.02} // Bobbing distance
+          bobPeriod={5}
+          rotationDirection={-1}
+        />
+        <OrbitingModel
           url={blimpModel}
           radius={5.8}
           period={70.8}
           color="#3437eb"
           center={{ x: 0, y: 3.17, z: 0.0 }}
           scale={1.05}
-          bobDistance={0.0} // Bobbing distance
-          bobPeriod={5}
+          bobDistance={0.1} // Bobbing distance
+          bobPeriod={8}
           rotationDirection={-1}
         />
       </Suspense>
