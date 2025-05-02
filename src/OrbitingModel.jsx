@@ -30,8 +30,8 @@ const OrbitingModel = ({
       uniforms: {
         time: { value: 0.0 },
         glowColor: { value: new THREE.Vector3(0.0, 1.0, 0.0) },
-        pulseSpeed: { value: 22.0 },
-        glowIntensity: { value: 1.5 },
+        pulseSpeed: { value: 5.0 },
+        glowIntensity: { value: 0.9 },
         glowThickness: { value: 2.0 },
         transparent: true,
         depthWrite: false,
@@ -64,30 +64,31 @@ const OrbitingModel = ({
             uniform float glowThickness;    // Glow radius (e.g., 0.1 to 0.3)
             uniform float time;          // Optional: for pulsing effect
 
-            varying vec3 vNormal;   // Normal from vertex shader
-            varying vec3 vViewDir;  // View direction from vertex shader
+
+            varying vec3 vNormal;
+            varying vec3 vViewDir;
 
             void main() {
-                // Compute edge factor (dot product between normal and view direction)
                 float edge = abs(dot(normalize(vNormal), normalize(vViewDir)));
-
-                // Create glow near silhouette (where edge is close to 0)
                 float glow = smoothstep(0.0, glowThickness, edge);
                 float core = smoothstep(glowThickness * 0.5, glowThickness, edge);
 
-                // Combine core and glow
-   
-                float intensity = core + (1.0 - glow) * glowIntensity * 1.5;
+                float pulseFactor = sin(time * 4.0) * 0.5 + 0.5;
 
-                // Optional: Add a pulsing effect
-                //float pulse = 1.0 + 0.2 * sin(time * 2.0);
-                float pulse = 1.0 + 0.8 * sin(time * 2.0);
-                intensity *= pulse ;
+                // Emphasize the core (edges) with a higher multiplier
+                float emphasizedCore = core * 2.0; // Adjust this multiplier
 
-                // Final color with neon effect
-                vec3 color = glowColor * intensity;
-                color = glowColor * intensity * pulse * 1.2;
-                gl_FragColor = vec4(color, intensity); // Use intensity as alpha for blending
+                // Add a very bright, narrow glow at the extreme edges
+                float extremeEdge = smoothstep(glowThickness * 0.8, glowThickness, edge);
+                float extremeGlow = extremeEdge * 3.0 * pulseFactor; // Make it pulse too
+
+                float modulatedGlowIntensity = emphasizedCore + (1.0 - glow) * glowIntensity * pulseFactor * 3.0 + extremeGlow;
+
+                float alpha = smoothstep(0.1, 0.9, modulatedGlowIntensity) * pulseFactor * 1.5;
+                alpha = clamp(alpha, 0.0, 1.0);
+
+                vec3 color = glowColor * modulatedGlowIntensity * 1.3;
+                gl_FragColor = vec4(color, alpha);
             }
       `,
     });
